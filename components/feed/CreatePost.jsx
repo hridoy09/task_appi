@@ -49,7 +49,7 @@ const PRIVACY_OPTIONS = [
   { value: "private", label: "Private", description: "Only you", Icon: PrivateIcon },
 ];
 
-const CreatePost = () => {
+const CreatePost = ({ onPostCreated } = {}) => {
   const photoInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const privacyRef = useRef(null);
@@ -70,7 +70,7 @@ const CreatePost = () => {
     selectMedia,
     clearMedia,
     FeedHandaler,
-  } = useFeedHandaler();
+  } = useFeedHandaler({ onSuccess: onPostCreated });
 
   const photoPreview = useMemo(() => {
     if (type !== "photo" || !media) return null;

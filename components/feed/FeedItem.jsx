@@ -257,12 +257,24 @@ const FeedItem = ({ post }) => {
           </p>
         ) : null}
 
-        {post.media_type === "image" && post.media_path ? (
+        {(post.media_type === "image" || post.type === "photo") && post.media_path ? (
           <div className="_feed_inner_timeline_image">
             <img
               src={getMediaUrl(post.media_path)}
               alt=""
               className="_time_img"
+            />
+          </div>
+        ) : null}
+
+        {(post.media_type === "video" || post.type === "video") && post.media_path ? (
+          <div className="_feed_inner_timeline_image">
+            <video
+              className="_time_img"
+              controls
+              playsInline
+              preload="metadata"
+              src={getMediaUrl(post.media_path)}
             />
           </div>
         ) : null}

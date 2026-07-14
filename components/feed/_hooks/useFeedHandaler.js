@@ -6,7 +6,7 @@ import { postApi } from "@/lib/api";
 
 const POST_TYPES = ["text", "photo", "video", "event", "article"];
 
-export default function useFeedHandaler() {
+export default function useFeedHandaler({ onSuccess } = {}) {
   const [type, setType] = useState("text");
   const [body, setBody] = useState("");
   const [media, setMedia] = useState(null);
@@ -57,6 +57,7 @@ export default function useFeedHandaler() {
     try {
       await postApi("FEEDS_STORE", formData);
       resetForm();
+      onSuccess?.();
     } catch (postError) {
      
       setError(postError.message || "Failed to create post");

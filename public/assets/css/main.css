@@ -1819,9 +1819,21 @@
 }
 ._feed_inner_timeline_image {
     margin: 0 0 24px 0;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 6px;
 }
 ._time_img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
     border-radius: 6px;
+}
+._feed_inner_timeline_image video._time_img {
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: #000;
 }
 ._react_img1 {
     max-width: 32px;

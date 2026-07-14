@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 
 import { getAuthUser } from "@/lib/api";
 
@@ -10,16 +10,29 @@ import FeedItemSkeleton from "./FeedItemSkeleton";
 import useFeedList from "./_hooks/useFeedList";
 
 const PostCard = () => {
-  const { feeds, isLoading, error } = useFeedList();
+  const { feeds, isLoading, error, refetch } = useFeedList();
   const currentUser = getAuthUser();
 
-  const visibleFeeds = feeds.filter(
-    (post) => post.privacy !== "private" || post.user_id === currentUser?.id
-  );
+  const visibleFeeds = useMemo(() => {
+    const filtered = feeds.filter(
+      (post) => post.privacy !== "private" || post.user_id === currentUser?.id
+    );
+
+    return [...filtered].sort((a, b) => {
+      const timeA = Number.isFinite(Date.parse(a?.created_at))
+        ? Date.parse(a.created_at)
+        : 0;
+      const timeB = Number.isFinite(Date.parse(b?.created_at))
+        ? Date.parse(b.created_at)
+        : 0;
+
+      return timeB - timeA;
+    });
+  }, [feeds, currentUser?.id]);
 
   return (
     <>
-      <CreatePost />
+      <CreatePost onPostCreated={refetch} />
 
       {isLoading ? (
         <>
