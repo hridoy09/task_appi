@@ -1,3 +1,8 @@
+if (typeof globalThis.Request === 'undefined') {
+  const { fetch, Headers, Request, Response } = require('undici')
+  Object.assign(globalThis, { fetch, Headers, Request, Response })
+}
+
 const { createServer } = require('http')
 const { parse } = require('url')
 const next = require('next')
