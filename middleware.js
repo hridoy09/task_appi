@@ -29,5 +29,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/feed/:path*", "/login", "/register"],
+  matcher: ["/feed", "/feed/:path*", "/login", "/register"],
 };

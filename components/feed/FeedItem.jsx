@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { getAuthUser, getMediaUrl, postApi } from "@/lib/api";
-import { formatTimeAgo } from "@/lib/time";
+import { formatDateLabel, formatTimeAgo } from "@/lib/time";
 
 function HeartIcon({ filled }) {
   return (
@@ -91,6 +91,10 @@ const FeedItem = ({ post }) => {
 
   const displayedLikeUsers = likeUsers.slice(0, 5);
   const totalLikeCount = likeUsers.length > 0 ? likeUsers.length : likeCount;
+  const authorName = post?.user?.name || "Unknown user";
+  const postPrivacy = post?.privacy || "public";
+  const postTimeLabel = formatTimeAgo(post?.created_at);
+  const eventDateLabel = formatDateLabel(post?.event_date);
 
   return (
     <div className="_feed_inner_timeline_post_area _b_radious6 _padd_b24 _padd_t24 _mar_b16">
@@ -106,10 +110,12 @@ const FeedItem = ({ post }) => {
             </div>
             <div className="_feed_inner_timeline_post_box_txt">
               <h4 className="_feed_inner_timeline_post_box_title">
-                {post.user?.name}
+                {authorName}
               </h4>
               <p className="_feed_inner_timeline_post_box_para">
-                {formatTimeAgo(post.created_at)} . <span>{post.privacy}</span>
+                <span suppressHydrationWarning>{postTimeLabel}</span>
+                {" . "}
+                <span>{postPrivacy}</span>
               </p>
             </div>
           </div>
@@ -245,7 +251,7 @@ const FeedItem = ({ post }) => {
 
         {post.type === "event" && post.event_date ? (
           <p className="_feed_inner_timeline_post_box_para">
-            Event date: {new Date(post.event_date).toLocaleDateString()}
+            Event date: <span suppressHydrationWarning>{eventDateLabel}</span>
           </p>
         ) : null}
 
